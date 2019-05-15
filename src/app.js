@@ -1,22 +1,22 @@
-import puppeteer from 'puppeteer';
-import cheerio from 'cheerio';
+import puppeteer from "puppeteer";
+import cheerio from "cheerio";
+const url = "https://www.remitly.com/ca/en/india/pricing";
 
-const url = 'https://www.remitly.com/ca/en/india/pricing';
+const getExchangeRateFromRemitly = async () => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto(url);
+  const pageWithExchangeRate = await page.content();
+  const $ = cheerio.load(pageWithExchangeRate);
+  const exchangeRate = $("table tbody tr")
+    .eq(1)
+    .find("td")
+    .eq(1)
+    .find("div")
+    .eq(0)
+    .text();
+  await browser.close();
+  return exchangeRate;
+};
 
-puppeteer
-  .launch()
-  .then(browser => browser.newPage())
-  .then(page => page.goto(url).then(() => page.content()))
-  .then(html => {
-    const $ = cheerio.load(html);
-    console.log(
-      $('table tbody tr')
-        .eq(1)
-        .find('td')
-        .eq(1)
-        .find('div')
-        .eq(0)
-        .text()
-    );
-  });
-// console.log(html);
+getExchangeRateFromRemitly().then(rate => console.log(rate));
