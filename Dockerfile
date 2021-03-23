@@ -1,4 +1,4 @@
-FROM node:10.16-alpine
+FROM node:14.5.0-alpine
 LABEL maintainer="shamanth.gs@gmail.com"
 
 RUN apk update && \
@@ -16,3 +16,5 @@ RUN cd tmp && \
     mv dist/* ../ && \
     cd .. && \
     rm -rf ./tmp
+
+CMD [ "node", "app.js" ]
