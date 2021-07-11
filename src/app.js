@@ -1,6 +1,8 @@
 import { getExchangeRateUsingPuppeteer } from './exchangeRate';
 import chromium from 'chrome-aws-lambda';
 import { sendSMS } from './smsClient';
+import { env } from './env';
+import { isProduction } from './util';
 
 export const handler = async (event, context, callback) => {
   let result = 'result';
@@ -17,7 +19,9 @@ export const handler = async (event, context, callback) => {
       browser: browser,
     });
     const smsMessage = `Currently 1 CAD$ = ${exchangeRate}`;
-    await sendSMS({ message: smsMessage, phoneNumber: process.env.DEVPHONENO });
+    if (isProduction()) {
+      await sendSMS({ message: smsMessage, phoneNumber: env.phoneNumber });
+    }
     console.log(smsMessage);
   } catch (error) {
     console.log(error, 'Error occured while delivering exchange rate');

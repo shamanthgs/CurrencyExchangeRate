@@ -7,7 +7,9 @@
     "clean": "rimraf dist",
     "start": "nodemon --exec babel-node src/local-dev/run-local.js -r node_modules/dotenv/config",
     "build": "npm run clean && mkdirp dist && babel src --ignore test.js -D -d dist",
-    "test": "node_modules/.bin/jest --watch"
+    "test": "node_modules/.bin/jest --watch",
+    "dynamodb-local": "docker run -p 8000:8000 amazon/dynamodb-local",
+    "dynamodb-admin": "cross-env DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +28,8 @@
     "@babel/plugin-transform-regenerator": "^7.12.1",
     "@babel/preset-env": "^7.4.4",
     "aws-sdk": "^2.870.0",
+    "cross-env": "^7.0.3",
+    "dynamodb-admin": "^4.0.1",
     "jest": "^26.6.3",
     "puppeteer": "^8.0.0",
     "rimraf": "^3.0.2"
