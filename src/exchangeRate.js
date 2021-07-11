@@ -48,7 +48,7 @@ export const getExchangeRateUsingPuppeteer = async ({ browser }) => {
   //   'div[data-testid="product-EXPRESS"] .content > div'
   // ).text();
   const economyExchangeRateDetails = $(
-    'div[data-testid="product-BASIC"] .content > div'
+    'div[data-testid="product-ECONOMY"] .content > div'
   ).text();
 
   await page.goto(LOGOUTURL);
